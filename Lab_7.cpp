@@ -4,8 +4,8 @@
 using namespace std;
 
 // Global Variable
-char yesOrNo;
-int triesUsed;
+char yesOrNo; // Used to ask user to enter another word
+int triesUsed; // Used to only allow so many invalid responses
 
 // Forward declarations
 void CheckForError(string word, size_t foundEndPunctuation);
