@@ -15,10 +15,10 @@ char EnterAnotherWord(char yesOrNo, int triesUsed);
 
 int main()
 {
-    // Test word for vowel pig latin converter
-    string word = "which?";
-    string vowelEnding = "yay";
-    string constantEnding = "ay";
+    // Variables to allow for proper conversion
+    string word; // Takes user input for word
+    string vowelEnding = "yay"; // Adds -yay to vowel starting words
+    string constantEnding = "ay"; // adds -ay to constant starting words
 
     // Output what the program is to the user
     cout << "-------------------\n";
