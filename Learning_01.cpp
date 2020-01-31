@@ -3,38 +3,45 @@
 
 using namespace std;
 
+// Forward declarations
+void CheckForError(string word, size_t foundEnd);
+
 int main()
 {
-	char vowels[] = { 'a', 'i', 'e', 'o', 'u' };
-	char puncucation[] = { ',','.','?',';',':', };
+	string wordVowel = "elephant?";
+	string yayEnding = "yay";
 
-	string word = "elephant.";
+	size_t foundEnd = wordVowel.find_first_of(",.?;:");
+	size_t foundVowel = wordVowel.find_first_of("aAiIeEoOuU");
 
-	char firstLetter = word[0];
-	char lastLetter = word[word.length() - 1];
+	char lastLetter = wordVowel[wordVowel.length() - 1];
 
-	for (int i = 0; i <= sizeof(vowels); i++)
+	if (foundEnd >= 1 && foundEnd < 100)
 	{
-		while (firstLetter == vowels[i])
+		CheckForError(wordVowel, foundEnd);
+		char newEnd = lastLetter;
+		wordVowel.erase(wordVowel.begin() + wordVowel.length() - 1);
+		
+		if (foundVowel == 0)
 		{
-			if (firstLetter == vowels[i] && lastLetter == puncucation[i])
-			{
-				char newPuncucationEnding = lastLetter;
-				firstLetter = { 't' };
-				word.erase(word.length() - 1);
+			cout << wordVowel.append(yayEnding) << lastLetter << endl;
+		}
 
-				cout << word << "yay" << newPuncucationEnding << endl;
-			}
-			else if (firstLetter == vowels[i] && puncucation[i] != lastLetter)
-			{
-				firstLetter = { 't' };
-				cout << word << "yay" << endl;
-
-				cout << i;
-			}
-		}	
 	}
 
-
 	return 0;
+}
+
+// Checks to make sure that the punctuation is at the end of word
+// if not closes the console
+void CheckForError(string word, size_t foundEnd)
+{
+	int puncAtTheEndPlace = word.length() - 1;
+
+	if (puncAtTheEndPlace != foundEnd)
+	{
+		cerr << "ERROR: punctuation not at end of word" << endl;
+
+		exit(1);
+	}
 }
