@@ -13,7 +13,7 @@ int main()
 	char firstLetter = word[0];
 	char lastLetter = word[word.length() - 1];
 
-	for (int i = 0, ii = 0; i <= sizeof(vowels); i++)
+	for (int i = 0; i <= sizeof(vowels); i++)
 	{
 		while (firstLetter == vowels[i])
 		{
@@ -32,16 +32,8 @@ int main()
 
 				cout << i;
 			}
-			else
-			{
-				firstLetter = word[0];
-			}
-		}
-			
-			
+		}	
 	}
-
-
 
 
 	return 0;
