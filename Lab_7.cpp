@@ -3,18 +3,19 @@
 
 using namespace std;
 
-// Global Variable
-char yesOrNo; // Used to ask user to enter another word
-int triesUsed; // Used to only allow so many invalid responses
-
 // Forward declarations
-void CheckForError(string word, size_t foundEndPunctuation);
-void FoundVowelConverter(size_t foundVowel, size_t foundEndPunctuation, string word, string vowelEnding);
-void FoundConstantConverter(size_t foundVowel, size_t foundEndPunctuation, string word, string vowelEnding, string constantEnding);
+void CheckForError(string word, size_t foundEndPunctuation,char yesOrNo,int triesUsed);
+void FoundVowelConverter(size_t foundVowel, size_t foundEndPunctuation, string word, string vowelEnding,char yesOrNo,int triesUsed);
+void FoundConstantConverter(size_t foundVowel, size_t foundEndPunctuation, string word, string vowelEnding, string constantEnding,char yesOrNo,int triesUsed);
 char EnterAnotherWord(char yesOrNo, int triesUsed);
 
 int main()
 {
+    // Variable to hold 'y' or 'n' answer from user
+    char yesOrNo;
+    // Variable to store users failed input attempts
+    int triesUsed = 0;
+
     // Variables to allow for proper conversion
     string word; // Takes user input for word
     string vowelEnding = "yay"; // Adds -yay to vowel starting words
@@ -25,6 +26,7 @@ int main()
     cout << "Pig Latin Converter\n";
     cout << "-------------------\n\n";
 
+    // Ask user to input a word
     cout << "Enter your word to be converted: ";
     cin >> word;
     cout << endl;
@@ -39,21 +41,21 @@ int main()
         return 0;
 
     // Function for vowel conversion
-    FoundVowelConverter(foundVowel, foundEndPunctuation, word, vowelEnding);
+    FoundVowelConverter(foundVowel, foundEndPunctuation, word, vowelEnding, yesOrNo,triesUsed);
 
     // If the first letter isn't a vowel then begin constant conversion
-    FoundConstantConverter(foundVowel, foundEndPunctuation, word, vowelEnding, constantEnding);
+    FoundConstantConverter(foundVowel, foundEndPunctuation, word, vowelEnding, constantEnding, yesOrNo,triesUsed);
 
     // Check and see if there are any errors
-    // such as punctuation being at the begininng
-    CheckForError(word, foundEndPunctuation);
+    // such as punctuation being at the beginning
+    CheckForError(word, foundEndPunctuation, yesOrNo,triesUsed);
 
     return 0;
 }
 
 // Checks to make sure that the punctuation is at the end of word
 // if not closes the console
-void CheckForError(string word, size_t foundEndPunctuation)
+void CheckForError(string word, size_t foundEndPunctuation, char yesOrNo,int triesUsed)
 {
     // Takes the place where the punctuation should be in the word
     int puncAtTheEndPlace = word.length() - 1;
@@ -116,7 +118,7 @@ char EnterAnotherWord(char yesOrNo, int triesUsed)
 }
 
 // Function to convert words starting with a vowel
-void FoundVowelConverter(size_t foundVowel, size_t foundEndPunctuation, string word, string vowelEnding)
+void FoundVowelConverter(size_t foundVowel, size_t foundEndPunctuation, string word, string vowelEnding, char yesOrNo, int triesUsed)
 {
     // If statement to check for vowel conversion
     if (foundVowel == 0)
@@ -126,7 +128,7 @@ void FoundVowelConverter(size_t foundVowel, size_t foundEndPunctuation, string w
         {
 
             // Checks to make sure the punctuation is at the end
-            CheckForError(word, foundEndPunctuation);
+            CheckForError(word, foundEndPunctuation, yesOrNo,triesUsed);
 
             // Takes the last character in the word and saves it
             char lastLetter = word[word.length() - 1];
@@ -143,6 +145,7 @@ void FoundVowelConverter(size_t foundVowel, size_t foundEndPunctuation, string w
         // If not punctuation found then add -yay onto the end
         else if (foundEndPunctuation > 100)
         {
+            // appends 'yay' onto the word
             cout << word.append(vowelEnding) << endl;
 
             // Ask to enter another word
@@ -152,7 +155,7 @@ void FoundVowelConverter(size_t foundVowel, size_t foundEndPunctuation, string w
 }
 
 // Function to convert words starting with a constant
-void FoundConstantConverter(size_t foundVowel, size_t foundEndPunctuation, string word, string vowelEnding, string constantEnding)
+void FoundConstantConverter(size_t foundVowel, size_t foundEndPunctuation, string word, string vowelEnding, string constantEnding, char yesOrNo, int triesUsed)
 {
     if (foundVowel != 0)
     {
@@ -160,7 +163,7 @@ void FoundConstantConverter(size_t foundVowel, size_t foundEndPunctuation, strin
         if (foundEndPunctuation >= 1 && foundEndPunctuation < 100)
         {
             // Check to make sure punctuation is at the end of word
-            CheckForError(word, foundEndPunctuation);
+            CheckForError(word, foundEndPunctuation, yesOrNo,triesUsed);
 
             // Takes the last character in the word and saves it
             // in this case should be punctuation
@@ -169,7 +172,8 @@ void FoundConstantConverter(size_t foundVowel, size_t foundEndPunctuation, strin
             // Erase the punctuation in order to append the string
             word.erase(word.begin() + word.length() - 1);
 
-            // Saves the beginning constant letters and saves them
+            // Saves the beginning constant letters by counting from 0 up to
+            // when the vowel was found
             string lettersOfConstant = word.substr(0, foundVowel);
 
             // Delete the constants in order to append correctly
